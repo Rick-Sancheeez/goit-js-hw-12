@@ -1,0 +1,59 @@
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+
+    padding: 0 50px;
+}
+
+.gallery > li {
+    flex-basis: calc((100% - (24px * 2)) / 3);
+    border: 1px solid #808080;
+}
+
+.gallery > li img {
+    width: 100%;
+  height: 200px;           /* Фіксована висота */
+  object-fit: cover
+}
+
+.gallery ul.image-description {
+    display: flex;
+    padding: 4px 0px 4px 20px;
+}
+
+.gallery ul.image-description li:not(:nth-child(3)) {
+    margin-right: 27px;
+}
+
+.gallery ul.image-description li:nth-child(3) {
+    margin-right: 32px;
+}
+
+.gallery ul.image-description li span:first-child {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 4%;
+}
+
+.gallery ul.image-description li span:nth-child(2) {
+    font-family: Montserrat, sans-serif;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 4%;
+
+    display: block;
+}
+
+.loader {
+    display: none;
+    text-align: center;
+    font-size: 16px;
+    margin: 16px 0;
+}

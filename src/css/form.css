@@ -1,0 +1,67 @@
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    padding: 32px 0 36px 0;
+}
+
+.form input[type="text"] {
+    height: 40px;
+    width: 276px;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    padding-left: 16px;
+
+    background-color: #fff;
+    font-family: 'Montserrat';
+}
+
+.form input[type="text"]::placeholder {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 4%;
+
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 4%;
+
+}
+
+.form input[type="text"]:hover {
+    border-color: #000000;
+}
+
+.form input[type="text"]:focus {
+    border-color: #4E75FF;
+    outline: none;
+}
+
+.form button {
+    padding: 8px 16px;
+    width: 91px;
+    height: 40px;
+    background-color: #4E75FF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+
+    font-family: Montserrat;
+   
+    font-style: Medium;
+    font-size: 16px;
+    line-height: 24px;
+   
+
+}
+
+.form button:hover {
+    background-color: #6C8CFF;
+}
