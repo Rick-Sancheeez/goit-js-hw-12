@@ -30,7 +30,7 @@ export function createGallery(images) {
         </li>`;
     }).join("");
 
-    gallery.innerHTML = markUp;
+    gallery.insertAdjacentHTML('beforeend', markUp);
 
     if(lightbox) {
         lightbox.refresh();
