@@ -39,7 +39,6 @@ form.addEventListener("submit", async (event) => {
 
     try {
         let data = await getImagesByQuery(query, page);
-        hideLoader();
 
         if(data.hits.length === 0) {
             iziToast.error({
@@ -52,35 +51,38 @@ form.addEventListener("submit", async (event) => {
         createGallery(data.hits);
         
         totalPages = Math.ceil(data.totalHits / per_page);
-        page++;
-
-        divButton.style.display = "block";
 
         galleryItem = document.querySelector(".gallery").lastElementChild;
         rect = galleryItem.getBoundingClientRect().height;
 
+        if(page >= totalPages){
+            iziToast.info({
+                position: 'topRight',
+                message: "We're sorry, but you've reached the end of search results.",
+            });
+
+            divButton.style.display = "none";
+        } else {
+            divButton.style.display = "block";
+            page++;
+        }
+
     } catch(error) {
-        hideLoader();
         iziToast.info({
             position: 'topRight',
             message: error.message,
         });
+    } finally {
+        hideLoader();
     }
   
 });
 
 loadButton.addEventListener("click", async () => {
+    divButton.style.display = "none";
+    showLoader();
     try {
         let data = await getImagesByQuery(query, page);
-        hideLoader();
-
-        if(page > totalPages){
-            iziToast.info({
-                position: 'topRight',
-                message: "We're sorry, but you've reached the end of search results.",
-            });
-            return;
-        }
 
         createGallery(data.hits);
         
@@ -88,14 +90,26 @@ loadButton.addEventListener("click", async () => {
             top: rect * 2,
             behavior: "smooth",
         });
-        
-        page++;
+
+        if(page = totalPages){
+            iziToast.info({
+                position: 'topRight',
+                message: "We're sorry, but you've reached the end of search results.",
+            });
+
+            divButton.style.display = "none";
+            
+        } else {
+            page++;
+            divButton.style.display = "block";
+        }
     
     } catch(error) {
-        hideLoader();
         iziToast.info({
             position: 'topRight',
             message: error.message,
         });
+    } finally {
+        hideLoader();
     }
 });
