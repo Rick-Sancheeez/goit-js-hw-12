@@ -2,12 +2,11 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 import {getImagesByQuery, per_page} from "./js/pixabay-api.js";
-import {createGallery, clearGallery, showLoader, hideLoader} from "./js/render-functions.js";
+import {createGallery, clearGallery, showLoader, hideLoader, showLoadMoreButton, hideLoadMoreButton} from "./js/render-functions.js";
 
 
 let form = document.querySelector(".form");
 let loadButton = document.querySelector(".load-button");
-let divButton = document.querySelector(".div-for-button");
 
 let query;
 
@@ -21,8 +20,7 @@ form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     clearGallery();
-    divButton.style.display = "none";
-    page = 1;
+    hideLoadMoreButton();
 
     let userQuery = event.target.elements["search-text"].value.trim();
     if(userQuery === "") {
@@ -37,6 +35,7 @@ form.addEventListener("submit", async (event) => {
     showLoader();
     query = userQuery.split(" ").join("+");
 
+    page = 1;
     try {
         let data = await getImagesByQuery(query, page);
 
@@ -49,11 +48,10 @@ form.addEventListener("submit", async (event) => {
         }
 
         createGallery(data.hits);
-        
-        totalPages = Math.ceil(data.totalHits / per_page);
-
         galleryItem = document.querySelector(".gallery").lastElementChild;
         rect = galleryItem.getBoundingClientRect().height;
+
+        totalPages = Math.ceil(data.totalHits / per_page);
 
         if(page >= totalPages){
             iziToast.info({
@@ -61,10 +59,10 @@ form.addEventListener("submit", async (event) => {
                 message: "We're sorry, but you've reached the end of search results.",
             });
 
-            divButton.style.display = "none";
+            hideLoadMoreButton();
         } else {
-            divButton.style.display = "block";
-            page++;
+            showLoadMoreButton();
+            //page++;
         }
 
     } catch(error) {
@@ -79,29 +77,31 @@ form.addEventListener("submit", async (event) => {
 });
 
 loadButton.addEventListener("click", async () => {
-    divButton.style.display = "none";
+    hideLoadMoreButton();
     showLoader();
+
+    page++;
     try {
         let data = await getImagesByQuery(query, page);
 
         createGallery(data.hits);
+
+        galleryItem = document.querySelector(".gallery").lastElementChild;
+        rect = galleryItem.getBoundingClientRect().height;
         
         window.scrollBy({
             top: rect * 2,
             behavior: "smooth",
         });
 
-        if(page = totalPages){
+        if(page >= totalPages){
             iziToast.info({
                 position: 'topRight',
                 message: "We're sorry, but you've reached the end of search results.",
             });
-
-            divButton.style.display = "none";
-            
         } else {
-            page++;
-            divButton.style.display = "block";
+            //page++;
+            showLoadMoreButton();
         }
     
     } catch(error) {

@@ -5,6 +5,10 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 let lightbox;
 let loader = document.querySelector(".loader");
+
+
+let divButton = document.querySelector(".div-for-button");
+
 const gallery = document.querySelector('.gallery');
 
 export function createGallery(images) {
@@ -51,3 +55,10 @@ export function hideLoader() {
     if (loader) loader.style.display = "none";
 }
 
+export function showLoadMoreButton() {
+    divButton.style.display = "block";
+}
+
+export function hideLoadMoreButton() {
+    divButton.style.display = "none"
+}
